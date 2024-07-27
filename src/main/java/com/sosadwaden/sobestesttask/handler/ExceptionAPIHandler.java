@@ -5,10 +5,12 @@ import com.sosadwaden.sobestesttask.api.response.ValidationExceptionResponse;
 import com.sosadwaden.sobestesttask.exception.AccountNotFoundException;
 import com.sosadwaden.sobestesttask.exception.ValidationError;
 import com.sosadwaden.sobestesttask.exception.ValidationException;
+import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -42,6 +44,15 @@ public class ExceptionAPIHandler {
 
         logger.debug("Детали исключения: ", exception);
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<MessageDtoResponse> handleMissingRequestHeaderException(MissingRequestHeaderException exception) {
+        MessageDtoResponse response = MessageDtoResponse.builder()
+                .message(exception.getMessage())
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }

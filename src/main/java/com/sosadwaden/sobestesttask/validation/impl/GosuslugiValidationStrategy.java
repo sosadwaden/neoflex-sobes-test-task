@@ -1,6 +1,5 @@
 package com.sosadwaden.sobestesttask.validation.impl;
 
-import com.sosadwaden.sobestesttask.Entity.Account;
 import com.sosadwaden.sobestesttask.api.request.AccountDtoPostRequest;
 import com.sosadwaden.sobestesttask.exception.ValidationError;
 import com.sosadwaden.sobestesttask.exception.ValidationException;

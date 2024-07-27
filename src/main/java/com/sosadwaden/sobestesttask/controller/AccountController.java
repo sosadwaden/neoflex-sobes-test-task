@@ -69,6 +69,13 @@ public class AccountController {
                                                                                 "}")
                     }
             )),
+            @ApiResponse(responseCode = "422", description = "Отсутствует заголовок x-Source", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = MessageDtoResponse.class),
+                    examples = @ExampleObject(name = "MissingHeaderError", value = "{\n" +
+                                                                                   "  \"message\": \"Отсутствует обязательный заголовок 'x-Source'\"\n" +
+                                                                                   "}")
+            ))
     })
     @PostMapping
     public ResponseEntity<AccountDtoPostResponse> createAccount(
