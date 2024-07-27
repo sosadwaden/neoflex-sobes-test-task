@@ -14,5 +14,14 @@ spring:
     hibernate:
       ddl-auto: update
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, loggers
+  endpoint:
+    health:
+      show-details: always
+
 server:
   port: 1111
