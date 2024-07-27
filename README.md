@@ -53,8 +53,8 @@
 ## Используемые технологии
 + **Java 17** <br/>
 + **Maven** <br/>
-+ **SpringBoot** <br/>
-+ **SpringMVC** <br/>
++ **Spring Boot** <br/>
++ **Spring MVC** <br/>
 + **Spring Data Jpa** <br/>
 + **PostgreSQL** </br>
 + **jUnit** <br/>
