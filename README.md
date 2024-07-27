@@ -62,3 +62,11 @@
 + **Swagger** <br/>
 + **Docker**
 ## API
+Создать аккаунт: </br>
+![sobesCreateAccount.png](src%2Fmain%2Fresources%2Fimages%2FsobesCreateAccount.png)
+Получить аккаунт по id: </br>
+![sobesGetAccountById.png](src%2Fmain%2Fresources%2Fimages%2FsobesGetAccountById.png)
+Получить аккаунт по критериям: </br>
+![sobesSearch.png](src%2Fmain%2Fresources%2Fimages%2FsobesSearch.png)
+Документация доступна по адресу http://localhost:1111/swagger-ui/index.html </br>
+![sobesSwagger.png](src%2Fmain%2Fresources%2Fimages%2FsobesSwagger.png)
