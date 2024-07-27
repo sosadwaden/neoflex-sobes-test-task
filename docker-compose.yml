@@ -13,6 +13,22 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_container
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/sobes_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: user
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SERVER_PORT: 1111
+    ports:
+      - "1111:1111"
+    depends_on:
+      - postgres_db
+
 volumes:
   postgres_data:
 
@@ -32,16 +48,3 @@ volumes:
 
 
 
-#  app:
-#    image: openjdk:17
-#    container_name: app_container
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/sobes_db
-#      SPRING_DATASOURCE_USERNAME: user
-#      SPRING_DATASOURCE_PASSWORD: user
-#      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
-#      SPRING_SERVER_PORT: 1111
-#    ports:
-#     - "1111:1111"
-#    depends_on:
-#      - postgres_db
