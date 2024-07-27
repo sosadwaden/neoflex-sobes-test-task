@@ -1,12 +1,13 @@
-package com.sosadwaden.sobestesttask.api.request;
+package com.sosadwaden.sobestesttask.api.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
-@Schema(description = "Запрос для создания учётной записи")
+@Schema(description = "Ответ для получения аккаунта")
 @Getter
 @Setter
 @ToString
@@ -14,7 +15,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AccountDtoPostRequest {
+public class AccountDtoGetResponse {
+
+    UUID id;
 
     @Schema(description = "ID банка", example = "5")
     Long bankId;

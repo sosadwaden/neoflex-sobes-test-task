@@ -4,10 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
-@Schema(description = "DTO для представления информации об аккаунте. Ответ после создания Account")
+@Schema(description = "Ответ после создания Account")
 @Getter
 @Setter
 @ToString
@@ -17,27 +16,9 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountDtoPostResponse {
 
+    @Schema(description = "UUID пользователя", example = "16e0ba44-0109-45a6-b106-3122da7ecc36")
     UUID id;
 
-    Long bankId;
-
-    String lastName;
-
-    String firstName;
-
-    String middleName;
-
-    LocalDate birthdate;
-
-    String passportNumber;
-
-    String placeOfBirth;
-
-    String phone;
-
-    String email;
-
-    String registrationAddress;
-
-    String residentialAddress;
+    @Schema(description = "Сообщение", example = "Аккаунт успешно создан")
+    String message;
 }

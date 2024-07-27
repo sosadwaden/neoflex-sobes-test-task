@@ -9,9 +9,28 @@ services:
       POSTGRES_PASSWORD: user
       POSTGRES_DB: sobes_db
     ports:
-      - "5432:5432"
+      - "5436:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #  app:
 #    image: openjdk:17
@@ -26,6 +45,3 @@ services:
 #     - "1111:1111"
 #    depends_on:
 #      - postgres_db
-
-volumes:
-  postgres_data:
