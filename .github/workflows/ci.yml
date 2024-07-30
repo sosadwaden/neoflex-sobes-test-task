@@ -4,16 +4,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      db:
-        image: postgres:latest
-        ports:
-          - 5437:5432
-        env:
-          POSTGRES_DB: mydb
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: password
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
