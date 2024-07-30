@@ -4,6 +4,7 @@ import com.sosadwaden.sobestesttask.api.response.MessageDtoResponse;
 import com.sosadwaden.sobestesttask.api.response.ValidationExceptionResponse;
 import com.sosadwaden.sobestesttask.exception.AccountNotFoundException;
 import com.sosadwaden.sobestesttask.exception.DuplicateAccountException;
+import com.sosadwaden.sobestesttask.exception.InvalidSourceException;
 import com.sosadwaden.sobestesttask.exception.ValidationException;
 import com.sosadwaden.sobestesttask.service.impl.AccountMatchInfo;
 import org.slf4j.Logger;
@@ -30,6 +31,18 @@ public class ExceptionAPIHandler {
                 .build();
 
         logger.error("Ошибка валидации: {}", exception.getMessage());
+        logger.debug("Детали исключения: ", exception);
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidSourceException.class)
+    public ResponseEntity<MessageDtoResponse> handleInvalidSourceException(InvalidSourceException exception) {
+        MessageDtoResponse response = MessageDtoResponse.builder()
+                .message(exception.getMessage())
+                .build();
+
+        logger.error("Недействительный источник: {}", exception.getMessage());
         logger.debug("Детали исключения: ", exception);
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

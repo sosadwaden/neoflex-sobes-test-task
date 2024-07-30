@@ -1,7 +1,7 @@
 package com.sosadwaden.sobestesttask.service.impl;
 
 import com.sosadwaden.sobestesttask.api.request.AccountDtoPostRequest;
-import com.sosadwaden.sobestesttask.exception.ValidationException;
+import com.sosadwaden.sobestesttask.exception.InvalidSourceException;
 import com.sosadwaden.sobestesttask.service.ValidationService;
 import com.sosadwaden.sobestesttask.validation.ValidationStrategy;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ public class ValidationServiceImpl implements ValidationService {
             logger.info("Валидация прошла успешно для источника: {}", source);
         } else {
             logger.error("Неподдерживаемый источник: {}", source);
-            throw new ValidationException("Неподдерживаемый источник: " + source);
+            throw new InvalidSourceException("Неподдерживаемый источник: " + source);
         }
     }
 }

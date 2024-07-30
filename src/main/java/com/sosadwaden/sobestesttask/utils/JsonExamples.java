@@ -16,10 +16,9 @@ public class JsonExamples {
                                                               "  ]\n" +
                                                               "}";
 
-    public static final String INVALID_SOURCE_ERROR_EXAMPLE = "{\n" +
-                                                              "  \"source\": \"Неподдерживаемый источник: source_name\",\n" +
-                                                              "  \"errors\": []\n" +
-                                                              "}";
+    public static final String INVALID_SOURCE_EXCEPTION_EXAMPLE = "{\n" +
+                                                                  "  \"message\": \"Неподдерживаемый источник: source_name\"\n" +
+                                                                  "}";
 
     public static final String ACCOUNT_NOT_FOUND_ACCORDING_SPECIFIED_CRITERIA = "{\n" +
                                       "  \"source\": null,\n" +

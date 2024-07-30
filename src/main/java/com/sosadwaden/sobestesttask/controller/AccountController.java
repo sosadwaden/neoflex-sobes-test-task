@@ -59,8 +59,8 @@ public class AccountController {
                                             value = JsonExamples.VALIDATION_EXCEPTION_EXAMPLE
                                     ),
                                     @ExampleObject(
-                                            name = "InvalidSourceError",
-                                            value = JsonExamples.INVALID_SOURCE_ERROR_EXAMPLE
+                                            name = "InvalidSourceException",
+                                            value = JsonExamples.INVALID_SOURCE_EXCEPTION_EXAMPLE
                                     )
                             }
                     )
@@ -69,7 +69,7 @@ public class AccountController {
                     mediaType = "application/json",
                     schema = @Schema(implementation = MessageDtoResponse.class),
                     examples = @ExampleObject(name = "MissingHeaderError", value = "{\n" +
-                                                                                   "  \"message\": \"Отсутствует обязательный заголовок 'x-Source'\"\n" +
+                                                                                   "  \"message\": \"Required request header 'x-Source' for method parameter type String is not present\"\n" +
                                                                                    "}")
             ))
     })
