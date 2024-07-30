@@ -1,6 +1,6 @@
 package com.sosadwaden.sobestesttask.service;
 
-import com.sosadwaden.sobestesttask.Entity.Account;
+import com.sosadwaden.sobestesttask.entity.Account;
 import com.sosadwaden.sobestesttask.api.response.AccountDtoGetResponse;
 import com.sosadwaden.sobestesttask.exception.AccountNotFoundException;
 import com.sosadwaden.sobestesttask.mapper.AccountMapper;

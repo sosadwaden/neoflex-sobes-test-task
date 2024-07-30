@@ -7,6 +7,7 @@ import com.sosadwaden.sobestesttask.api.response.MessageDtoResponse;
 import com.sosadwaden.sobestesttask.api.response.ValidationExceptionResponse;
 import com.sosadwaden.sobestesttask.exception.AccountNotFoundException;
 import com.sosadwaden.sobestesttask.service.AccountService;
+import com.sosadwaden.sobestesttask.utils.JsonExamples;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -46,29 +47,24 @@ public class AccountController {
                     mediaType = "application/json",
                     schema = @Schema(implementation = AccountDtoPostResponse.class)
             )),
-            @ApiResponse(responseCode = "400", description = "Ошибка валидации или неверное значение x-Source", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = ValidationExceptionResponse.class),
-                    examples = {
-                            @ExampleObject(name = "ValidationException", value = "{\n" +
-                                                                             "  \"source\": \"Пропущены обязательные поля при создании аккаунта при помощи банка\",\n" +
-                                                                             "  \"errors\": [\n" +
-                                                                             "    {\n" +
-                                                                             "      \"field\": \"birthdate\",\n" +
-                                                                             "      \"message\": \"Birth date является обязательным\"\n" +
-                                                                             "    },\n" +
-                                                                             "    {\n" +
-                                                                             "      \"field\": \"passportNumber\",\n" +
-                                                                             "      \"message\": \"Passport number является обязательным\"\n" +
-                                                                             "    }\n" +
-                                                                             "  ]\n" +
-                                                                             "}"),
-                            @ExampleObject(name = "InvalidSourceError", value = "{\n" +
-                                                                                "  \"source\": \"Неподдерживаемый источник: source_name\",\n" +
-                                                                                "  \"errors\": []\n" +
-                                                                                "}")
-                    }
-            )),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Ошибка валидации или неверное значение x-Source",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ValidationExceptionResponse.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "ValidationException",
+                                            value = JsonExamples.VALIDATION_EXCEPTION_EXAMPLE
+                                    ),
+                                    @ExampleObject(
+                                            name = "InvalidSourceError",
+                                            value = JsonExamples.INVALID_SOURCE_ERROR_EXAMPLE
+                                    )
+                            }
+                    )
+            ),
             @ApiResponse(responseCode = "422", description = "Отсутствует заголовок x-Source", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = MessageDtoResponse.class),
@@ -157,16 +153,16 @@ public class AccountController {
             @ApiResponse(responseCode = "404", description = "Учетная запись не найдена в соответствии с указанными критериями", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = AccountNotFoundException.class),
-                    examples = @ExampleObject(value = "{\n" +
-                                                      "  \"source\": null,\n" +
-                                                      "  \"errors\": [\n" +
-                                                      "    {\n" +
-                                                      "      \"field\": \"searchCriteria\",\n" +
-                                                      "      \"message\": \"Учетная запись не найдена в соответствии с указанными критериями\"\n" +
-                                                      "    }\n" +
-                                                      "  ]\n" +
-                                                      "}")
-            ))
+                    examples = @ExampleObject(value = JsonExamples.ACCOUNT_NOT_FOUND_ACCORDING_SPECIFIED_CRITERIA)
+            )),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Найдено два или более аккаунта по заданным критериям",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(value = JsonExamples.DUPLICATE_ACCOUNT_EXAMPLE)
+                    )
+            )
     })
     @GetMapping("/search")
     public ResponseEntity<?> searchAccount(

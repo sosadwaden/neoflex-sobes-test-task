@@ -1,6 +1,7 @@
 package com.sosadwaden.sobestesttask.repository;
 
-import com.sosadwaden.sobestesttask.Entity.Account;
+import com.sosadwaden.sobestesttask.entity.Account;
+import com.sosadwaden.sobestesttask.exception.DuplicateAccountException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +10,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class AccountSpecificationsTest {

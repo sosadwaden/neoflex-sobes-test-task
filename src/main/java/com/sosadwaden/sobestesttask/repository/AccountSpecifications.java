@@ -1,6 +1,6 @@
 package com.sosadwaden.sobestesttask.repository;
 
-import com.sosadwaden.sobestesttask.Entity.Account;
+import com.sosadwaden.sobestesttask.entity.Account;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

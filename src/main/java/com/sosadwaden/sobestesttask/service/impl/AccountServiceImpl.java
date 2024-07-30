@@ -1,10 +1,11 @@
 package com.sosadwaden.sobestesttask.service.impl;
 
-import com.sosadwaden.sobestesttask.Entity.Account;
+import com.sosadwaden.sobestesttask.entity.Account;
 import com.sosadwaden.sobestesttask.api.request.AccountDtoPostRequest;
 import com.sosadwaden.sobestesttask.api.response.AccountDtoGetResponse;
 import com.sosadwaden.sobestesttask.api.response.AccountDtoPostResponse;
 import com.sosadwaden.sobestesttask.exception.AccountNotFoundException;
+import com.sosadwaden.sobestesttask.exception.DuplicateAccountException;
 import com.sosadwaden.sobestesttask.mapper.AccountMapper;
 import com.sosadwaden.sobestesttask.repository.AccountRepository;
 import com.sosadwaden.sobestesttask.repository.AccountSpecifications;
@@ -15,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -75,14 +78,53 @@ public class AccountServiceImpl implements AccountService {
         logger.info("Поиск аккаунта с критериями: lastName={}, firstName={}, middleName={}, phone={}, email={}",
                 lastName, firstName, middleName, phone, email);
 
-        Account account = accountRepository.findOne(accountSpecifications.getAccountsByCriteria(
-                        lastName, firstName, middleName, phone, email))
-                .orElseThrow(() -> {
-                    logger.warn("Аккаунт не найден по указанным критериям");
-                    return new AccountNotFoundException("Учетная запись не найдена в соответствии с указанными критериями");
-                });
+        List<Account> accounts = accountRepository.findAll(accountSpecifications.getAccountsByCriteria(
+                lastName, firstName, middleName, phone, email));
 
-        logger.info("Аккаунт найден: {}", account);
-        return accountMapper.toResponseDto(account);
+        if (accounts.isEmpty()) {
+            logger.warn("Аккаунт не найден по указанным критериям");
+            throw new AccountNotFoundException("Учетная запись не найдена в соответствии с указанными критериями");
+        }
+
+        List<AccountMatchInfo> matchedAccounts = new ArrayList<>();
+
+        for (Account account : accounts) {
+
+            AccountMatchInfo matchInfo = new AccountMatchInfo(account);
+
+            if (lastName != null && lastName.equals(account.getLastName())) {
+                matchInfo.addMatchedCriterion("lastName");
+            }
+
+            if (firstName != null && firstName.equals(account.getFirstName())) {
+                matchInfo.addMatchedCriterion("firstName");
+            }
+
+            if (middleName != null && middleName.equals(account.getMiddleName())) {
+                matchInfo.addMatchedCriterion("middleName");
+            }
+
+            if (phone != null && phone.equals(account.getPhone())) {
+                matchInfo.addMatchedCriterion("phone");
+            }
+
+            if (email != null && email.equals(account.getEmail())) {
+                matchInfo.addMatchedCriterion("email");
+            }
+
+            matchedAccounts.add(matchInfo);
+        }
+
+        if (matchedAccounts.size() > 1) {
+            logger.warn("Найдено более одной учетной записи, соответствующей указанным критериям");
+            throw new DuplicateAccountException("Найдено более одной учетной записи, соответствующей указанным критериям", matchedAccounts);
+        }
+
+        AccountMatchInfo matchedAccount = matchedAccounts.get(0);
+
+        logger.info("Аккаунт найден: {}", matchedAccount.getAccount());
+        logger.info("Совпадающие критерии: {}", matchedAccount.getMatchedCriteria());
+
+        return accountMapper.toResponseDto(matchedAccount.getAccount());
     }
 }

@@ -3,7 +3,6 @@ package com.sosadwaden.sobestesttask.validation.impl;
 import com.sosadwaden.sobestesttask.api.request.AccountDtoPostRequest;
 import com.sosadwaden.sobestesttask.exception.ValidationError;
 import com.sosadwaden.sobestesttask.exception.ValidationException;
-import com.sosadwaden.sobestesttask.validation.ValidateField;
 import com.sosadwaden.sobestesttask.validation.ValidationStrategy;
 import org.springframework.stereotype.Component;
 

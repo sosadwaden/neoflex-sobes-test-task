@@ -1,8 +1,9 @@
 package com.sosadwaden.sobestesttask.service;
 
-import com.sosadwaden.sobestesttask.Entity.Account;
+import com.sosadwaden.sobestesttask.entity.Account;
 import com.sosadwaden.sobestesttask.api.response.AccountDtoGetResponse;
 import com.sosadwaden.sobestesttask.exception.AccountNotFoundException;
+import com.sosadwaden.sobestesttask.exception.DuplicateAccountException;
 import com.sosadwaden.sobestesttask.mapper.AccountMapper;
 import com.sosadwaden.sobestesttask.repository.AccountRepository;
 import com.sosadwaden.sobestesttask.repository.AccountSpecifications;
@@ -15,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -88,4 +90,29 @@ class AccountServiceImplSearchAccountTest {
         verify(accountRepository).findOne(spec);
         verify(accountMapper, never()).toResponseDto(any());
     }
+
+    @Test
+    void searchAccount_MultipleAccountsFound_ShouldThrowException() {
+        Account account2 = new Account();
+        account2.setLastName("Кузнецов");
+        account2.setFirstName("Иван");
+
+        List<Account> accounts = List.of(account, account2);
+
+        Specification<Account> specification = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+
+        when(accountSpecifications.getAccountsByCriteria(
+                "Кузнецов", "Иван", null, null, null
+        )).thenReturn(specification);
+
+        when(accountRepository.findAll(specification)).thenReturn(accounts);
+
+        DuplicateAccountException thrownException = assertThrows(DuplicateAccountException.class, () ->
+                accountService.searchAccount("Кузнецов", "Иван", null, null, null)
+        );
+
+        assertEquals("Найдено более одной учетной записи, соответствующей указанным критериям", thrownException.getMessage());
+        assertEquals(2, thrownException.getMatchedAccounts().size());
+    }
+
 }

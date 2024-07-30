@@ -1,12 +1,11 @@
 package com.sosadwaden.sobestesttask.service;
 
-import com.sosadwaden.sobestesttask.Entity.Account;
+import com.sosadwaden.sobestesttask.entity.Account;
 import com.sosadwaden.sobestesttask.api.request.AccountDtoPostRequest;
 import com.sosadwaden.sobestesttask.api.response.AccountDtoPostResponse;
 import com.sosadwaden.sobestesttask.exception.ValidationException;
 import com.sosadwaden.sobestesttask.mapper.AccountMapper;
 import com.sosadwaden.sobestesttask.repository.AccountRepository;
-import com.sosadwaden.sobestesttask.repository.AccountSpecifications;
 import com.sosadwaden.sobestesttask.service.impl.AccountServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,9 +29,6 @@ class AccountServiceImplCreateAccountTest {
 
     @Mock
     private AccountMapper accountMapper;
-
-    @Mock
-    private AccountSpecifications accountSpecifications;
 
     @InjectMocks
     private AccountServiceImpl accountService;

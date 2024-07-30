@@ -1,8 +1,11 @@
 package com.sosadwaden.sobestesttask.exception;
 
+import lombok.Getter;
+
 import java.util.Collections;
 import java.util.List;
 
+@Getter
 public class ValidationException extends RuntimeException {
 
     private final List<ValidationError> validationErrors;
@@ -16,7 +19,4 @@ public class ValidationException extends RuntimeException {
         this.validationErrors = validationErrors;
     }
 
-    public List<ValidationError> getValidationErrors() {
-        return validationErrors;
-    }
 }

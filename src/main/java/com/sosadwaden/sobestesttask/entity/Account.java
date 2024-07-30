@@ -1,4 +1,4 @@
-package com.sosadwaden.sobestesttask.Entity;
+package com.sosadwaden.sobestesttask.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

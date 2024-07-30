@@ -3,9 +3,9 @@ package com.sosadwaden.sobestesttask.handler;
 import com.sosadwaden.sobestesttask.api.response.MessageDtoResponse;
 import com.sosadwaden.sobestesttask.api.response.ValidationExceptionResponse;
 import com.sosadwaden.sobestesttask.exception.AccountNotFoundException;
-import com.sosadwaden.sobestesttask.exception.ValidationError;
+import com.sosadwaden.sobestesttask.exception.DuplicateAccountException;
 import com.sosadwaden.sobestesttask.exception.ValidationException;
-import org.apache.coyote.Response;
+import com.sosadwaden.sobestesttask.service.impl.AccountMatchInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.Collections;
+import java.util.*;
 
 @RestControllerAdvice
 public class ExceptionAPIHandler {
@@ -54,5 +54,25 @@ public class ExceptionAPIHandler {
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(DuplicateAccountException.class)
+    public ResponseEntity<Map<String, Object>> handleDuplicateAccountException(DuplicateAccountException exception) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("message", exception.getMessage());
+        List<Map<String, Object>> duplicates = new ArrayList<>();
+
+        for (AccountMatchInfo matchInfo : exception.getMatchedAccounts()) {
+            Map<String, Object> accountInfo = new LinkedHashMap<>();
+            accountInfo.put("account", matchInfo.getAccount());
+            accountInfo.put("matchedCriteria", matchInfo.getMatchedCriteria());
+            duplicates.add(accountInfo);
+        }
+
+        response.put("duplicates", duplicates);
+
+        logger.warn("Детали исключения: {}", response);
+
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 }
