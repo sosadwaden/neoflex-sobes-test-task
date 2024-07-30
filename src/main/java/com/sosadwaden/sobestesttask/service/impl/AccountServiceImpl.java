@@ -75,8 +75,7 @@ public class AccountServiceImpl implements AccountService {
                                                String middleName,
                                                String phone,
                                                String email) {
-        logger.info("Поиск аккаунта с критериями: lastName={}, firstName={}, middleName={}, phone={}, email={}",
-                lastName, firstName, middleName, phone, email);
+        logger.info("Начинается поиск аккаунта");
 
         List<Account> accounts = accountRepository.findAll(accountSpecifications.getAccountsByCriteria(
                 lastName, firstName, middleName, phone, email));

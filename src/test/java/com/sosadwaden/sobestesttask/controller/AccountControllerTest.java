@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sosadwaden.sobestesttask.api.request.AccountDtoPostRequest;
 import com.sosadwaden.sobestesttask.api.response.AccountDtoGetResponse;
 import com.sosadwaden.sobestesttask.api.response.AccountDtoPostResponse;
+import com.sosadwaden.sobestesttask.api.response.ValidationExceptionResponse;
 import com.sosadwaden.sobestesttask.exception.AccountNotFoundException;
 import com.sosadwaden.sobestesttask.service.AccountService;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import static org.mockito.Mockito.when;
 
@@ -129,7 +135,7 @@ class AccountControllerTest {
     }
 
     @Test
-    public void searchAccount_NotFound() throws Exception {
+    public void testSearchAccount_NotFound() throws Exception {
         when(accountService.searchAccount("Кузнецов", "Иван", null, null, null))
                 .thenThrow(new AccountNotFoundException("Account not found"));
 
@@ -138,5 +144,10 @@ class AccountControllerTest {
                         .param("firstName", "Иван")
                         .header("x-Source", "mail"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    public void testHandleValidationException() throws Exception {
+
     }
 }

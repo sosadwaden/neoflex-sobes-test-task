@@ -173,8 +173,7 @@ public class AccountController {
             @RequestParam(required = false) String email) {
 
         long startTime = System.currentTimeMillis();
-        logger.info("Запрос на /api/v1/account/{id}: ({}, {}, {}, {}, {})",
-                lastName, firstName, middleName, phone, email);
+        logger.info("Запрос на /api/v1/account/{id}");
 
         if (lastName == null && firstName == null && middleName == null && phone == null && email == null) {
             return ResponseEntity.badRequest().body(MessageDtoResponse.builder().message("Должен быть указан хотя бы один параметр поиска").build());

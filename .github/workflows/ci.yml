@@ -32,6 +32,5 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: target/site/jacoco/jacoco.xml
 
-
       - name: Stop Docker Compose
         run: docker-compose down
