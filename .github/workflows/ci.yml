@@ -6,13 +6,13 @@ jobs:
 
     services:
       db:
-        image: postgres:13
+        image: postgres:latest
         ports:
           - 5436:5432
         env:
-          POSTGRES_DB: sobes_db
+          POSTGRES_DB: mydb
           POSTGRES_USER: user
-          POSTGRES_PASSWORD: user
+          POSTGRES_PASSWORD: password
 
     steps:
       - name: Checkout code
@@ -24,8 +24,11 @@ jobs:
           java-version: 17
           distribution: 'adopt'
 
+      - name: Build with Maven
+        run: ./mvnw clean package -DskipTests
+
       - name: Start Docker Compose
-        run: docker-compose up -d
+        run: docker-compose up -d --build
 
       - name: Run tests
         run: ./mvnw test
