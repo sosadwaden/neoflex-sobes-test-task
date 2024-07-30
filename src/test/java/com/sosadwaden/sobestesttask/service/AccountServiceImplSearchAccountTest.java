@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -61,9 +62,12 @@ class AccountServiceImplSearchAccountTest {
     @Test
     public void searchAccount_Success() {
         Specification<Account> spec = (root, query, builder) -> builder.equal(root.get("lastName"), "Кузнецов");
+
         when(accountSpecifications.getAccountsByCriteria(anyString(), anyString(), anyString(), anyString(), anyString()))
                 .thenReturn(spec);
-        when(accountRepository.findOne(spec)).thenReturn(Optional.of(account));
+
+        when(accountRepository.findAll(spec)).thenReturn(List.of(account));
+
         when(accountMapper.toResponseDto(account)).thenReturn(accountDtoGetResponse);
 
         AccountDtoGetResponse response = accountService.searchAccount("Кузнецов", "Иван", "Иванович", "123-456-7890", "example@example.com");
@@ -74,7 +78,7 @@ class AccountServiceImplSearchAccountTest {
         assertEquals(account.getLastName(), response.getLastName());
         assertEquals(account.getEmail(), response.getEmail());
 
-        verify(accountRepository).findOne(spec);
+        verify(accountRepository).findAll(spec);
         verify(accountMapper).toResponseDto(account);
     }
 
@@ -83,11 +87,11 @@ class AccountServiceImplSearchAccountTest {
         Specification<Account> spec = (root, query, builder) -> builder.equal(root.get("lastName"), "Кузнецов");
         when(accountSpecifications.getAccountsByCriteria(anyString(), anyString(), anyString(), anyString(), anyString()))
                 .thenReturn(spec);
-        when(accountRepository.findOne(spec)).thenReturn(Optional.empty());
+        when(accountRepository.findAll(spec)).thenReturn(Collections.emptyList());
 
         assertThrows(AccountNotFoundException.class, () -> accountService.searchAccount("Кузнецов", "Иван", "Иванович", "123-456-7890", "example@example.com"));
 
-        verify(accountRepository).findOne(spec);
+        verify(accountRepository).findAll(spec);
         verify(accountMapper, never()).toResponseDto(any());
     }
 
