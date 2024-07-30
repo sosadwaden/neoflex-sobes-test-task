@@ -24,7 +24,14 @@ jobs:
         run: docker-compose up -d --build
 
       - name: Run tests
-        run: ./mvnw test
+        run: ./mvnw test jacoco:repot
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: target/site/jacoco/jacoco.xml
+
 
       - name: Stop Docker Compose
         run: docker-compose down
