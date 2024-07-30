@@ -8,7 +8,7 @@ jobs:
       db:
         image: postgres:latest
         ports:
-          - 5436:5432
+          - 5437:5432
         env:
           POSTGRES_DB: mydb
           POSTGRES_USER: user

@@ -3,7 +3,7 @@ spring:
     name: sobes-test-task
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5436/sobes_db
+    url: jdbc:postgresql://localhost:5437/sobes_db
     username: user
     password: user
 
