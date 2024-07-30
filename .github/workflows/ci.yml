@@ -39,6 +39,10 @@ jobs:
       - name: Run Tests
         run: |
           docker-compose -f docker-compose.yml exec -T app mvn test
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/sobes_db
+          SPRING_DATASOURCE_USERNAME: user
+          SPRING_DATASOURCE_PASSWORD: user
 
       - name: Stop and Remove Docker Containers
         if: always()
